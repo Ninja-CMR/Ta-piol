@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap');
+
+body {
+  @apply bg-blanc-casse text-slate-800 font-sans antialiased;
+}
+
+.btn-primary {
+  @apply bg-orange-corail text-white px-6 py-2.5 rounded-xl font-semibold transition-all hover:bg-opacity-90 active:scale-95;
+}
+
+.btn-secondary {
+  @apply bg-blue-petrole text-white px-6 py-2.5 rounded-xl font-semibold transition-all hover:bg-opacity-90 active:scale-95;
+}
+
+.btn-outline {
+  @apply border-2 border-blue-petrole text-blue-petrole px-6 py-2.5 rounded-xl font-semibold transition-all hover:bg-blue-petrole hover:text-white active:scale-95;
+}
+
+.card {
+  @apply bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden;
+}
+
+.input-field {
+  @apply w-full px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-petrole/10 focus:border-blue-petrole transition-all;
+}
