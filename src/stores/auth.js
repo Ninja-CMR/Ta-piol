@@ -10,7 +10,6 @@ export const useAuthStore = defineStore('auth', {
     },
     actions: {
         async login(credentials) {
-            // Mock login
             console.log('Login attempt:', credentials)
             this.user = {
                 name: 'John Doe',
@@ -23,10 +22,14 @@ export const useAuthStore = defineStore('auth', {
             this.saveToStorage()
         },
         async register(data) {
-            // Mock register
             console.log('Register attempt:', data)
             this.user = { ...data }
             this.token = 'mock-jwt-token'
+            this.saveToStorage()
+        },
+
+        updateProfile(updatedData) {
+            this.user = { ...this.user, ...updatedData }
             this.saveToStorage()
         },
         logout() {

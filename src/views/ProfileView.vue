@@ -46,12 +46,33 @@
       </div>
     </div>
   </div>
+
+  <div v-if="showSuccessModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-blue-petrole/40 backdrop-blur-sm">
+    <div class="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl transform transition-all text-center relative">
+      <button @click="showSuccessModal = false" class="absolute top-4 right-4 text-gris-ardoise hover:text-red-600 transition-colors">
+        <span class="text-xl font-bold">✕</span>
+      </button>
+
+      <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
+        <CheckIcon :size="40" />
+      </div>
+      
+      <h3 class="text-2xl font-bold text-blue-petrole mb-2">Profil mis à jour</h3>
+      <p class="text-gris-ardoise mb-6">Vos modifications ont été enregistrées avec succès.</p>
+      
+      <button @click="showSuccessModal = false" class="btn-primary w-full py-3">
+        D'accord
+      </button>
+    </div>
+  </div>
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+import { CheckIcon } from 'lucide-vue-next'
 
+const showSuccessModal = ref(false)
 const auth = useAuthStore()
 
 const form = reactive({
@@ -63,7 +84,8 @@ const form = reactive({
 })
 
 const saveProfile = () => {
-  auth.user = { ...auth.user, ...form }
-  alert('Profil mis à jour avec succès !')
+  auth.updateProfile({ ...form })
+  
+  showSuccessModal.value = true
 }
 </script>
