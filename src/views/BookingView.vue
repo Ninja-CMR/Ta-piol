@@ -68,6 +68,23 @@
       </button>
     </div>
   </div>
+  <div v-if="showSuccessModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-blue-petrole/40 backdrop-blur-sm">
+  <div class="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl transform transition-all text-center">
+    <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6 text-4xl">
+      <CheckIcon />
+    </div>
+    <h3 class="text-2xl font-bold text-blue-petrole mb-2">Demande envoyée !</h3>
+    <p class="text-gris-ardoise mb-8">
+      Votre rendez-vous pour <strong>{{ housing.currentHousing?.title }}</strong> a bien été enregistré.
+    </p>
+    <button 
+      @click="confirmAndRedirect"
+      class="w-full btn-primary py-3 shadow-lg shadow-orange-corail/30"
+    >
+      Voir mes rendez-vous
+    </button>
+  </div>
+</div>
 </template>
 
 <script setup>
@@ -75,7 +92,7 @@ import { ref, reactive, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ArrowLeft as ArrowLeftIcon } from 'lucide-vue-next'
 import { useHousingStore } from '@/stores/housing'
-
+import { CheckIcon } from 'lucide-vue-next'
 const route = useRoute()
 const router = useRouter()
 const housing = useHousingStore()
@@ -101,6 +118,7 @@ const nextDays = computed(() => {
   }
   return days
 })
+const showSuccessModal = ref(false)
 
 const submitRequest = () => {
   housing.addAppointment({
@@ -110,8 +128,10 @@ const submitRequest = () => {
     slot: form.slot,
     message: form.message
   })
-  
-  alert('Votre demande de rendez-vous a été envoyée !')
+  showSuccessModal.value = true
+}
+const confirmAndRedirect = () => {
+  showSuccessModal.value = false
   router.push('/appointments')
 }
 </script>
