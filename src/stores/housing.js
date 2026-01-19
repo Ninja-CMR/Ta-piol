@@ -199,5 +199,6 @@ export const useHousingStore = defineStore('housing', {
                 ...appointment
             })
         }
-    }
+    },
+    persist: true,
 })
