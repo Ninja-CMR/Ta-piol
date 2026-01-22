@@ -44,6 +44,42 @@ const routes = [
             }
         ],
         meta: { requiresAuth: true }
+    },
+    {
+        path: '/host',
+        component: () => import('../layouts/DefaultLayout.vue'), // Réutilisation du Layout principal
+        children: [
+            {
+                path: 'become',
+                name: 'BecomeHost',
+                component: () => import('../views/host/BecomeHostView.vue')
+            },
+            {
+                path: 'dashboard',
+                name: 'HostDashboard',
+                component: () => import('../views/host/HostDashboardView.vue'),
+                meta: { requiresHost: true }
+            },
+            {
+                path: 'properties',
+                name: 'HostProperties',
+                component: () => import('../views/host/HostPropertiesView.vue'),
+                meta: { requiresHost: true }
+            },
+            {
+                path: 'properties/new',
+                name: 'HostPropertyNew',
+                component: () => import('../views/host/HostPropertyFormView.vue'),
+                meta: { requiresHost: true }
+            },
+            {
+                path: 'appointments',
+                name: 'HostAppointments',
+                component: () => import('../views/host/HostAppointmentsView.vue'),
+                meta: { requiresHost: true }
+            }
+        ],
+        meta: { requiresAuth: true }
     }
 ]
 
@@ -58,6 +94,9 @@ router.beforeEach((to, from, next) => {
         next('/login')
     } else if (to.meta.guest && auth.isAuthenticated) {
         next('/')
+    } else if (to.meta.requiresHost && !auth.isHost) {
+        // Si l'accès requiert le rôle host mais l'user ne l'est pas
+        next('/host/become')
     } else {
         next()
     }
