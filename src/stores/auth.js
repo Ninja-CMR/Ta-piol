@@ -1,4 +1,6 @@
 import { defineStore } from 'pinia'
+import { useHostStore } from './host'
+import { useHousingStore } from './housing'
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
@@ -58,8 +60,24 @@ export const useAuthStore = defineStore('auth', {
         logout() {
             this.user = null
             this.token = null
+            this.currentRole = 'student'
+
+            // Nettoyage Auth
             localStorage.removeItem('auth_user')
             localStorage.removeItem('auth_token')
+            localStorage.removeItem('auth_current_role')
+
+            // Nettoyage Host (Bailleur)
+            localStorage.removeItem('host_properties')
+            localStorage.removeItem('host_appointments')
+            const hostStore = useHostStore()
+            hostStore.$reset()
+
+            // Nettoyage Housing (Favoris, RDV étudiants)
+            // Note: Comme housing utilise le plugin de persistance, on supprime la clé 'housing'
+            localStorage.removeItem('housing')
+            const housingStore = useHousingStore()
+            housingStore.$reset()
         },
         saveToStorage() {
             localStorage.setItem('auth_user', JSON.stringify(this.user))
